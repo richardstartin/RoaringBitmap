@@ -22,7 +22,9 @@ public class RealDataRoaringOnlyBenchmarkState extends org.roaringbitmap.Roaring
       WIKILEAKS_NOQUOTES_SRT})
   public String dataset;
 
-  public RealDataRoaringOnlyBenchmarkState() {}
+  public RealDataRoaringOnlyBenchmarkState() {
+
+  }
 
   @Setup
   public void setup() throws Exception {

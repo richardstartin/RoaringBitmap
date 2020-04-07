@@ -75,7 +75,9 @@ public class SlowMappedORaggregate1 {
 
     List<ImmutableRoaringBitmap> rc;
 
-    public BenchmarkState() {}
+    public BenchmarkState() {
+
+  }
 
     @Setup
     public void setup() throws Exception {

@@ -1502,7 +1502,7 @@ public final class MappeableRunContainer extends MappeableContainer implements C
       }
       // last run is one charer
       if (getLength(eIndex) == 0) {// special case where we remove last run
-        recoverRoomsInRange(eIndex - 1, eIndex);
+        recoverRoomsInRange(eIndex, eIndex + 1);
       } else {
         incrementValue(eIndex);
         decrementLength(eIndex);
@@ -2788,7 +2788,9 @@ final class MappeableRunContainerCharIterator implements PeekableCharIterator {
 
   private MappeableRunContainer parent;
 
-  MappeableRunContainerCharIterator() {}
+  MappeableRunContainerCharIterator() {
+
+  }
 
   MappeableRunContainerCharIterator(MappeableRunContainer p) {
     wrap(p);
@@ -3086,7 +3088,9 @@ final class ReverseMappeableRunContainerCharIterator implements CharIterator {
   private MappeableRunContainer parent;
 
 
-  ReverseMappeableRunContainerCharIterator() {}
+  ReverseMappeableRunContainerCharIterator() {
+    
+  }
 
   ReverseMappeableRunContainerCharIterator(MappeableRunContainer p) {
     wrap(p);

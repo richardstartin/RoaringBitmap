@@ -3,7 +3,9 @@ dependencies {
 }
 
 tasks {
-    val runAll by registering {}
+    val runAll by registering {
+
+  }
 
     val rootDir = File(rootProject.projectDir, "/real-roaring-dataset/src/main/resources/real-roaring-dataset/")
     rootDir.list()

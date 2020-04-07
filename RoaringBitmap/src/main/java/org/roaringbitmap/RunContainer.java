@@ -1618,7 +1618,7 @@ public final class RunContainer extends Container implements Cloneable {
 
       // last run is one shorter
       if (getLength(eIndex) == 0) {// special case where we remove last run
-        recoverRoomsInRange(eIndex - 1, eIndex);
+        recoverRoomsInRange(eIndex, eIndex + 1);
       } else {
         incrementValue(eIndex);
         decrementLength(eIndex);
@@ -2617,7 +2617,9 @@ class RunContainerCharIterator implements PeekableCharIterator {
 
   RunContainer parent;
 
-  RunContainerCharIterator() {}
+  RunContainerCharIterator() {
+
+  }
 
   RunContainerCharIterator(RunContainer p) {
     wrap(p);
@@ -2774,7 +2776,9 @@ final class ReverseRunContainerCharIterator implements CharIterator {
   private int base;
 
 
-  ReverseRunContainerCharIterator() {}
+  ReverseRunContainerCharIterator() {
+
+  }
 
   ReverseRunContainerCharIterator(RunContainer p) {
     wrap(p);

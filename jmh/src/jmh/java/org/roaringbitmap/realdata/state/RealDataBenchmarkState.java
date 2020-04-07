@@ -40,7 +40,9 @@ public class RealDataBenchmarkState extends org.roaringbitmap.AbstractBenchmarkS
   public boolean immutable;
 
 
-  public RealDataBenchmarkState() {}
+  public RealDataBenchmarkState() {
+
+  }
 
   @Setup
   public void setup() throws Exception {

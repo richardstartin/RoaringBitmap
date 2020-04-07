@@ -116,7 +116,9 @@ public class RunContainerRealDataBenchmarkRunOptimize {
     ArrayList<RoaringBitmap> ac = new ArrayList<RoaringBitmap>();
     ArrayList<RoaringBitmap> rc = new ArrayList<RoaringBitmap>();
 
-    public BenchmarkState() {}
+    public BenchmarkState() {
+
+  }
 
     @Setup
     public void setup() throws Exception {

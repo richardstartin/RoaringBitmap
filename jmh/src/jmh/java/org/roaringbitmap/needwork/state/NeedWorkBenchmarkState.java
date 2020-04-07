@@ -37,7 +37,9 @@ public class NeedWorkBenchmarkState extends AbstractBenchmarkState {
   public boolean immutable;
 
 
-  public NeedWorkBenchmarkState() {}
+  public NeedWorkBenchmarkState() {
+
+  }
 
   @Setup
   public void setup() throws Exception {

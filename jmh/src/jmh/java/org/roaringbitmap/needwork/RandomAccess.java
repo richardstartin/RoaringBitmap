@@ -35,7 +35,9 @@ public class RandomAccess {
 
     int[] queries = new int[1024];
 
-    public BenchmarkState() {}
+    public BenchmarkState() {
+
+  }
 
     @Override
     @Setup

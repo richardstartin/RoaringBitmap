@@ -107,7 +107,9 @@ public class MappedRunContainerRealDataBenchmarkRunOptimize {
     List<MutableRoaringBitmap> mac = new ArrayList<MutableRoaringBitmap>();
     List<MutableRoaringBitmap> mrc = new ArrayList<MutableRoaringBitmap>();
 
-    public BenchmarkState() {}
+    public BenchmarkState() {
+
+  }
 
     @Setup
     public void setup() throws Exception {

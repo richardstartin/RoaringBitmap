@@ -2066,29 +2066,6 @@ public class TestRoaringBitmap {
     assertEquals(andNot.getCardinality(), RoaringBitmap.andNotCardinality(rb, rb2));
   }
 
-
-  @Test
-  public void testAndNotCardinalityBigVsSmall() {
-    RoaringBitmap small = RoaringBitmap.bitmapOf(1, 2, 3);
-    RoaringBitmap big = new RoaringBitmap();
-    for (int i = 0; i < 4000; ++i) {
-      big.add(1 + i * 0x1000);
-    }
-    RoaringBitmap andNot = RoaringBitmap.andNot(big, small);
-    assertEquals(andNot.getCardinality(), RoaringBitmap.andNotCardinality(big, small));
-  }
-
-  @Test
-  public void testAndNotCardinalitySmallVsBig() {
-    RoaringBitmap small = RoaringBitmap.bitmapOf(1, 2, 3);
-    RoaringBitmap big = new RoaringBitmap();
-    for (int i = 0; i < 4000; ++i) {
-        big.add(1 + i * 0x1000);
-    }
-    RoaringBitmap andNot = RoaringBitmap.andNot(small, big);
-    assertEquals(andNot.getCardinality(), RoaringBitmap.andNotCardinality(small, big));
-  }
-
   @Test
   public void ortest() {
     final RoaringBitmap rr = new RoaringBitmap();
@@ -5287,20 +5264,5 @@ public class TestRoaringBitmap {
       assertNotEquals(rbB, rbA);
       rbB.runOptimize();
       assertNotEquals(rbB, rbA);
-  }
-
-  @Test
-  public void regressionTestRemove377() {
-    // https://github.com/RoaringBitmap/RoaringBitmap/issues/377
-    RoaringBitmap map = new RoaringBitmap();
-    map.add(0L, 64L);
-    for (int i = 0; i < 64; i++) {
-      if (i != 30 && i != 32) {
-        map.remove(i);
-      }
-    }
-    map.remove(0L, 31L);
-    assertFalse(map.contains(30));
-    assertTrue(map.contains(32));
   }
 }

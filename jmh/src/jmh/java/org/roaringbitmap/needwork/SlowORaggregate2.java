@@ -36,7 +36,9 @@ public class SlowORaggregate2 {
 
     ArrayList<RoaringBitmap> rc = new ArrayList<RoaringBitmap>();
 
-    public BenchmarkState() {}
+    public BenchmarkState() {
+
+  }
 
     @Setup
     public void setup() throws Exception {

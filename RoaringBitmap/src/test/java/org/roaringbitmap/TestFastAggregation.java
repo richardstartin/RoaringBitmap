@@ -58,7 +58,9 @@ public class TestFastAggregation {
         assertEquals(expected, result);
     }
 
-    private static class ExtendedRoaringBitmap extends RoaringBitmap {}
+    private static class ExtendedRoaringBitmap extends RoaringBitmap {
+
+    }
 
     @Test
     public void testAndWithIterator() {

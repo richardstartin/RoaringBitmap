@@ -1106,7 +1106,9 @@ public class TestRoaringBitmap {
       }
 
       @Override
-      public void remove() {}
+      public void remove() {
+
+      }
 
       @Override
       public ImmutableRoaringBitmap next() {
@@ -1132,7 +1134,9 @@ public class TestRoaringBitmap {
       }
 
       @Override
-      public void remove() {}
+      public void remove() {
+
+      }
 
       @Override
       public ImmutableRoaringBitmap next() {
@@ -3090,7 +3094,9 @@ public class TestRoaringBitmap {
       }
 
       @Override
-      public void remove() {}
+      public void remove() {
+
+      }
 
 
       @Override
@@ -3637,20 +3643,5 @@ public class TestRoaringBitmap {
     assertNotEquals(rbB, rbA);
     rbB.runOptimize();
     assertNotEquals(rbB, rbA);
-  }
-
-  @Test
-  public void regressionTestRemove377() {
-     // https://github.com/RoaringBitmap/RoaringBitmap/issues/377
-     MutableRoaringBitmap map = new MutableRoaringBitmap();
-     map.add(0L, 64L);
-     for (int i = 0; i < 64; i++) {
-       if (i != 30 && i != 32) {
-         map.remove(i);
-       }
-     }
-     map.remove(0L, 31L);
-     assertFalse(map.contains(30));
-     assertTrue(map.contains(32));
   }
 }

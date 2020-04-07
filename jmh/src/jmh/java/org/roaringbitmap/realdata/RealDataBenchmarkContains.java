@@ -35,7 +35,9 @@ public class RealDataBenchmarkContains {
 
     List<Integer> ranges;
 
-    public BenchmarkState() {}
+    public BenchmarkState() {
+
+  }
 
     @Override
     @Setup

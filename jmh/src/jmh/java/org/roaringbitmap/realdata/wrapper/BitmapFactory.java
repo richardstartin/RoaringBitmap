@@ -31,7 +31,9 @@ public final class BitmapFactory {
   public static final String ROARING_ONLY = "ROARING_ONLY";
   public static final String BITMAP_TYPES = "BITMAP_TYPES";
 
-  private BitmapFactory() {}
+  private BitmapFactory() {
+
+  }
 
   public static Bitmap newConciseBitmap(int[] data) {
     return newConciseBitmap(data, false);
@@ -128,6 +130,8 @@ public final class BitmapFactory {
     return ByteBuffer.wrap(baos.toByteArray());
   }
 
-  public static void cleanup() {}
+  public static void cleanup() {
+
+  }
 
 }

@@ -3,7 +3,9 @@ dependencies {
 }
 
 tasks {
-    val runAll by registering {}
+    val runAll by registering {
+
+  }
 
     File(project.projectDir, "src/main/java").list().forEach {
         val className = it.replace(".java", "")

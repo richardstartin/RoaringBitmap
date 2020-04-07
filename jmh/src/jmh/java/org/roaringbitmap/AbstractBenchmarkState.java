@@ -45,7 +45,9 @@ public abstract class AbstractBenchmarkState {
   private static final Cache<String, List<int[]>> DATASET_CACHE =
       CacheBuilder.newBuilder().maximumSize(1).build();
 
-  public AbstractBenchmarkState() {}
+  public AbstractBenchmarkState() {
+
+  }
 
   public void setup(final String dataset, String type, boolean immutable) throws Exception {
     if (ROARING_ONLY.equals(System.getProperty(BITMAP_TYPES)) && !ROARING.equals(type)

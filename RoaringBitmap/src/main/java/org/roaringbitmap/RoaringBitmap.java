@@ -12,6 +12,7 @@ import java.io.*;
 import java.nio.ByteBuffer;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+import java.util.function.ToIntBiFunction;
 
 import static org.roaringbitmap.RoaringBitmapWriter.writer;
 import static org.roaringbitmap.Util.lowbitsAsInteger;
@@ -842,9 +843,54 @@ public class RoaringBitmap implements Cloneable, Serializable, Iterable<Integer>
    * @see FastAggregation#horizontal_or(RoaringBitmap...)
    */
   public static int orCardinality(final RoaringBitmap x1, final RoaringBitmap x2) {
-    // we use the fact that the cardinality of the bitmaps is known so that
-    // the union is just the total cardinality minus the intersection
-    return x1.getCardinality() + x2.getCardinality() - andCardinality(x1, x2);
+    final int length1 = x1.highLowContainer.size(), length2 = x2.highLowContainer.size();
+    long cardinality = 0;
+    int pos1 = 0, pos2 = 0;
+    main: if (pos1 < length1 && pos2 < length2) {
+      char s1 = x1.highLowContainer.getKeyAtIndex(pos1);
+      char s2 = x2.highLowContainer.getKeyAtIndex(pos2);
+
+      while (true) {
+        if (s1 == s2) {
+          Container c1 = x1.highLowContainer.getContainerAtIndex(pos1);
+          Container c2 = x2.highLowContainer.getContainerAtIndex(pos2);
+          cardinality += c1.getCardinality() + c2.getCardinality() - c1.andCardinality(c2);
+          ++pos1;
+          ++pos2;
+          if ((pos1 == length1) || (pos2 == length2)) {
+            break main;
+          }
+          s1 = x1.highLowContainer.getKeyAtIndex(pos1);
+          s2 = x2.highLowContainer.getKeyAtIndex(pos2);
+        } else if (s1 < s2) {
+          cardinality += x1.highLowContainer.getContainerAtIndex(pos1).getCardinality();
+          ++pos1;
+          if (pos1 == length1) {
+            break main;
+          }
+          s1 = x1.highLowContainer.getKeyAtIndex(pos1);
+        } else {
+          cardinality += x2.highLowContainer.getContainerAtIndex(pos2).getCardinality();
+          ++pos2;
+          if (pos2 == length2) {
+            break main;
+          }
+          s2 = x2.highLowContainer.getKeyAtIndex(pos2);
+        }
+      }
+    }
+    if (pos1 == length1) {
+      while (pos2 < length2) {
+        cardinality += x2.highLowContainer.getContainerAtIndex(pos2).getCardinality();
+        ++pos2;
+      }
+    } else if (pos2 == length2) {
+      while (pos1 < length1) {
+        cardinality += x1.highLowContainer.getContainerAtIndex(pos1).getCardinality();
+        ++pos1;
+      }
+    }
+    return (int)cardinality;
   }
 
   /**
@@ -857,7 +903,54 @@ public class RoaringBitmap implements Cloneable, Serializable, Iterable<Integer>
    * @return cardinality of the symmetric difference
    */
   public static int xorCardinality(final RoaringBitmap x1, final RoaringBitmap x2) {
-    return x1.getCardinality() + x2.getCardinality() - 2 * andCardinality(x1, x2);
+    final int length1 = x1.highLowContainer.size(), length2 = x2.highLowContainer.size();
+    long cardinality = 0;
+    int pos1 = 0, pos2 = 0;
+    main: if (pos1 < length1 && pos2 < length2) {
+      char s1 = x1.highLowContainer.getKeyAtIndex(pos1);
+      char s2 = x2.highLowContainer.getKeyAtIndex(pos2);
+
+      while (true) {
+        if (s1 == s2) {
+          Container c1 = x1.highLowContainer.getContainerAtIndex(pos1);
+          Container c2 = x2.highLowContainer.getContainerAtIndex(pos2);
+          cardinality += c1.xorCardinality(c2);
+          ++pos1;
+          ++pos2;
+          if ((pos1 == length1) || (pos2 == length2)) {
+            break main;
+          }
+          s1 = x1.highLowContainer.getKeyAtIndex(pos1);
+          s2 = x2.highLowContainer.getKeyAtIndex(pos2);
+        } else if (s1 < s2) {
+          cardinality += x1.highLowContainer.getContainerAtIndex(pos1).getCardinality();
+          ++pos1;
+          if (pos1 == length1) {
+            break main;
+          }
+          s1 = x1.highLowContainer.getKeyAtIndex(pos1);
+        } else {
+          cardinality += x2.highLowContainer.getContainerAtIndex(pos2).getCardinality();
+          ++pos2;
+          if (pos2 == length2) {
+            break main;
+          }
+          s2 = x2.highLowContainer.getKeyAtIndex(pos2);
+        }
+      }
+    }
+    if (pos1 == length1) {
+      while (pos2 < length2) {
+        cardinality += x2.highLowContainer.getContainerAtIndex(pos2).getCardinality();
+        ++pos2;
+      }
+    } else if (pos2 == length2) {
+      while (pos1 < length1) {
+        cardinality += x1.highLowContainer.getContainerAtIndex(pos1).getCardinality();
+        ++pos1;
+      }
+    }
+    return (int)cardinality;
   }
 
   /**
@@ -873,7 +966,7 @@ public class RoaringBitmap implements Cloneable, Serializable, Iterable<Integer>
     final int length1 = x1.highLowContainer.size(), length2 = x2.highLowContainer.size();
 
     if (length2 > 4 * length1) {
-      // if x1 is much smaller than x2, this can be much faster
+      // if x1 is much smaller than x2, this will be much faster
       return x1.getCardinality() - andCardinality(x1, x2);
     }
 
